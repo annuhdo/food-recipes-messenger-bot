@@ -17,10 +17,10 @@ const
  */
 const
 	config = require('./config'),
-	FB = require('./FB'),
-	Recipes = require('./Recipes'),
-	Search = require('./Search'),
-	sendAPI = require('./sendAPI');
+	FB = require('./methods/FB'),
+	Recipes = require('./methods/Recipes'),
+	Search = require('./methods/Search'),
+	sendAPI = require('./services/sendAPI');
 
 var searchText = "";
 

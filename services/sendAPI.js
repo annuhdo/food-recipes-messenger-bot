@@ -2,9 +2,9 @@
 
 var
     type = "",
-    Recipes = require('./Recipes'),
-    Search = require('./Search'),
-    config = require('./config'),
+    Recipes = require('../methods/Recipes'),
+    Search = require('../methods/Search'),
+    config = require('../config'),
     request = require('request');
 
 // Generate a page access token for your page from the App Dashboard

@@ -1,7 +1,7 @@
 'use strict'
 
 var
-    config = require('./config'),
+    config = require('../config'),
     request = require('request');
 
 // Arbitrary value used to validate a webhook
