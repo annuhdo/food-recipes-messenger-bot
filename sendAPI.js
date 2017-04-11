@@ -4,8 +4,11 @@ var
     type = "",
     Recipes = require('./Recipes'),
     Search = require('./Search'),
-    config = require('.config'),
+    config = require('./config'),
     request = require('request');
+
+// Generate a page access token for your page from the App Dashboard
+const PAGE_ACCESS_TOKEN = (process.env.MESSENGER_PAGE_ACCESS_TOKEN) ? (process.env.MESSENGER_PAGE_ACCESS_TOKEN) : config.PAGE_ACCESS_TOKEN;
 
 
 /*
@@ -13,6 +16,7 @@ var
  *
  */
 var sendRecipe = function(sender, text) {
+    // local variables
     var recipe;
     var gif;
     var fileExt;
@@ -21,70 +25,65 @@ var sendRecipe = function(sender, text) {
     var gifQuery;
 
     do {
+        // No recipe is found.
         if (Recipes.getLength() == 0) {
-            return sendTypingOn(sender, "Hm, I couldn't find any random recipe for today :(");
+            return sendTextMessage(sender, "Hm, I couldn't find any random recipe for today :(");
         }
 
+        // Otherwise, get a random recipe from resulting list of recipes
         recipe = Recipes.getRecipe();
 
-        gif = recipe.data.url;
+        gif = recipe.data.url; // URL of this recipe
+        title = recipe.data.title; // title of this recipe
 
-        fileExt = gif.split('.').pop();
-        console.log("gif is:", gif);
-        title = recipe.data.title;
-        console.log("title is:", title);
+        // Let's sanitize the permalink of this recipe
         permalink = "https://www.reddit.com" + recipe.data.permalink;
         permalink = permalink.substr(0, permalink.lastIndexOf("?"));
         if (permalink.length == 0) {
             permalink = "https://www.reddit.com" + recipe.data.permalink;
         }
-        
+
+        // Tricky but works. We want to filter file extensions that are typical
+        // video/gif extensions -- .mp4, .mov, .gif, etc. 
+        // Pop the file extension and check the length.
+        fileExt = gif.split('.').pop();
+
     }
     while ((fileExt.length > 5) && !(gif.match(/gfycat.com/)) && (Recipes.getLength() != 0));
 
+    type = "video" // let the bot know it will send a video msg
 
 
-    // mutate string if it's from gfycat
+    // If the result is a gfycat result then let's convert to .mp4 file
     if (gif.match(/gfycat.com/)) {
         gifQuery = gif.split('/');
         gifQuery = gifQuery[gifQuery.length - 1];
         gif = "http://giant.gfycat.com/" + gifQuery + ".mp4";
     }
 
+    // Similarly, if the result is .gifv we can convert to .mp4 file
     if (gif.match(/\.(gifv)$/) != null) {
         gif = gif.substr(0, gif.lastIndexOf(".")) + ".mp4";
     }
 
     if (gif.match(/\.(gif)$/) != null) {
-        sendTypingOn(sender);
-        sendGifMessage(sender, gif);
-        // turn off search query
-        //search = false;
-        setTimeout(function() {
-            sendTextMessage(sender, title);
-        }, 500);
-
-
-        sendTypingOn(sender);
-        setTimeout(function() {
-            //sendTextMessage(sender, permalink);
-            sendQuickReply(recipientId, permalink, ['Another One', 'New Search']);
-        }, 1000);
-        return;
+        type = "gif"; // bot will send a gif instead
     }
 
+    sendTypingOn(sender); // show that bot is typing...
+    if (type == "video") {
+        sendVideoMessage(sender, gif);
+    } else if (type == "gif") {
+        sendGifMessage(sender, gif);
+    }
 
-    sendTypingOn(sender);
-    sendVideoMessage(sender, gif);
-
-    // turn off search query
-    //search = false;
+    // Due to the delay in sending the video/gif message,
+    // delay sending the title message
     setTimeout(function() {
         sendTextMessage(sender, title);
     }, 500);
 
-
-    sendTypingOn(sender);
+    // Delay sending the permalink message after title message
     setTimeout(function() {
         sendTextMessage(sender, permalink);
     }, 1000);
@@ -96,11 +95,16 @@ var sendRecipe = function(sender, text) {
  *
  */
 var sendAnotherOne = function(senderID, searchText) {
+
+    // Send a message if there is no other recipe left in resulted recipes 
+    // array
     if (Recipes.getLength() == 0) {
         return sendTextMessage(senderID, "I am out of recipe to show you :( Try another search query? 🙃");
     }
 
+    // User get locked in search, anything they type will be a search query
     search.lockSearch();
+
     sendTextMessage(senderID, 'One moment while I look for another ' + searchText + ' recipe.');
 
     return sendRecipe(senderID, searchText);
@@ -261,7 +265,7 @@ var callSendAPI = function(messageData) {
     request({
         uri: 'https://graph.facebook.com/v2.6/me/messages',
         qs: {
-            access_token: config.PAGE_ACCESS_TOKEN
+            access_token: PAGE_ACCESS_TOKEN
         },
         method: 'POST',
         json: messageData
