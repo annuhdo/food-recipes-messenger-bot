@@ -12,7 +12,7 @@
  * search = false means otherwise -- we need to then check what the user is typing
  */
 
-search = true; // by default search is on
+var search = true; // by default search is on
 
 /* isSearchLocked() checks if the search boolean is on or off
  * isSearchLocked: NaN -> Bool

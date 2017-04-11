@@ -103,7 +103,7 @@ var sendAnotherOne = function(senderID, searchText) {
     }
 
     // User get locked in search, anything they type will be a search query
-    search.lockSearch();
+    Search.lockSearch();
 
     sendTextMessage(senderID, 'One moment while I look for another ' + searchText + ' recipe.');
 
@@ -287,7 +287,7 @@ var callSendAPI = function(messageData) {
         }
 
         if (messageData.message != undefined && messageData.message.attachment != undefined) {
-            search.lockSearch();
+            Search.lockSearch();
             if (type == "video" || type == "gif") {
                 sendQuickReply(recipientId, "You can look at another video or type in a new search 🙂", ['Another One', 'New Search']);
                 return sendTypingOff(recipientId);
