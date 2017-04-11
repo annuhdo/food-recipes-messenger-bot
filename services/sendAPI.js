@@ -172,7 +172,7 @@ var sendHelpMessage = function(recipientId) {
  *
  */
 var sendGetStartedMessage = function(recipientId) {
-    sendQuickReply(recipientId, "Hello! I'm Chop Chop bot ^_^ You can use me to search for gif recipes, by telling me an ingredient or the name of the dish you are looking for and I will send you a random gif of it 🍱 \n\n🍳 Type 'Search' if you want to do this by searching for specific search query.\n🍟 Type 'Another' to get another recipe result from the last search query.\n🍜 Type 'Random' if you would like a random recipe of the day.\n🍕 Type 'Help' if you need help! \n\nLet me start you off with a random recipe!", ['Random Recipe']);
+    sendQuickReply(recipientId, "Hello! I'm ChopChop Food Recipes bot ^_^ You can use me to search for gif recipes, by telling me an ingredient or the name of the dish you are looking for and I will send you a random gif of it 🍱 \n\n🍳 Type 'Search' if you want to do this by searching for specific search query.\n🍟 Type 'Another' to get another recipe result from the last search query.\n🍜 Type 'Random' if you would like a random recipe of the day.\n🍕 Type 'Help' if you need help! \n\nLet me start you off with a random recipe!", ['Random Recipe']);
 }
 
 /*
