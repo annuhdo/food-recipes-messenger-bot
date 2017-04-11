@@ -161,23 +161,23 @@ function receivedPostback(event) {
 
     switch (payload) {
         case 'GET_STARTED':
-            search.unlockSearch();
+            Search.unlockSearch();
             sendAPI.sendGetStartedMessage(senderID);
             break;
         case 'MENU_ANOTHER':
-            search.lockSearch();
+            Search.lockSearch();
             return sendAPI.sendAnotherOne(senderID, searchText);
             break;
         case 'MENU_SEARCH':
-            search.lockSearch();
+            Search.lockSearch();
             sendAPI.sendTextMessage(senderID, "Search query is on! Tell me what you would like to search for. You may search for recipes such as \'cupcake\', \'fried rice,\' or \'Korean.\'\n✍️ 🌚 🌝");
             break;
         case 'MENU_RANDOM':
-            search.unlockSearch();
+            Search.unlockSearch();
             grabRecipe(senderID, "random", true);
             break;
         case 'MENU_HELP':
-            search.unlockSearch();
+            Search.unlockSearch();
             sendAPI.sendHelpMessage(senderID);
             break;
         default:
