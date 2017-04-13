@@ -20,6 +20,7 @@ const
 	FB = require('./methods/FB'),
 	Recipes = require('./methods/Recipes'),
 	Search = require('./methods/Search'),
+    Session = require('./methods/Session'),
 	sendAPI = require('./services/sendAPI');
 
 var searchText = "";
@@ -183,7 +184,7 @@ function receivedPostback(event) {
         default:
             break;
     }
-}
+} 
 
 
 /*
@@ -206,9 +207,7 @@ function receivedMessage(event) {
     var timeOfMessage = event.timestamp;
     var message = event.message;
 
-    // We retrieve the user's current session, or create one if it doesn't exist
-    // This is needed for our bot to figure out the conversation history
-    //const sessionId = findOrCreateSession(senderID);
+   
 
     console.log("Received message for user %d and page %d at %d with message:",
         senderID, recipientID, timeOfMessage);
@@ -356,7 +355,8 @@ function grabRecipe(sender, text, random) {
                 return sendAPI.sendTextMessage(sender, "Sorry, I couldn't find anything on " + text + " :( You can try typing another query and I will search it up for you 🤔");
             }
             // else
-            var recipes = Recipes.setRecipes(response.data.children);
+
+            var recipes = Recipes.setRecipes(response.data.children, sender);
             return sendAPI.sendRecipe(sender, searchText);
         });
     }
@@ -377,7 +377,7 @@ function grabRecipe(sender, text, random) {
                 return sendAPI.sendTextMessage(sender, "Sorry, I couldn't find anything on " + text + " :( You can try typing another query and I will search it up for you 🤔");
             }
             // else
-            var recipes = Recipes.setRecipes(response.data.children);
+            var recipes = Recipes.setRecipes(response.data.children, sender);
             return sendAPI.sendRecipe(sender, searchText);
         });
     }

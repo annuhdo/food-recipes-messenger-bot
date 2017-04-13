@@ -4,6 +4,7 @@ var
     type = "",
     Recipes = require('../methods/Recipes'),
     Search = require('../methods/Search'),
+    Session = require('../methods/Session'),
     config = require('../config'),
     request = require('request');
 
@@ -26,12 +27,12 @@ var sendRecipe = function(sender, text) {
 
     do {
         // No recipe is found.
-        if (Recipes.getLength() == 0) {
+        if (!Recipes.exist(sender)) {
             return sendTextMessage(sender, "Hm, I couldn't find any random recipe for today :(");
         }
 
         // Otherwise, get a random recipe from resulting list of recipes
-        recipe = Recipes.getRecipe();
+        recipe = Recipes.getRecipe(sender);
 
         gif = recipe.data.url; // URL of this recipe
         title = recipe.data.title; // title of this recipe
@@ -49,7 +50,7 @@ var sendRecipe = function(sender, text) {
         fileExt = gif.split('.').pop();
 
     }
-    while ((fileExt.length > 5) && !(gif.match(/gfycat.com/)) && (Recipes.getLength() != 0));
+    while ((fileExt.length > 5) && !(gif.match(/gfycat.com/)) && !Recipes.exist(sender));
 
     type = "video" // let the bot know it will send a video msg
 
@@ -98,7 +99,7 @@ var sendAnotherOne = function(senderID, searchText) {
 
     // Send a message if there is no other recipe left in resulted recipes 
     // array
-    if (Recipes.getLength() == 0) {
+    if (!Recipes.exist(senderID)) {
         return sendTextMessage(senderID, "I am out of recipe to show you :( Try another search query? 🙃");
     }
 

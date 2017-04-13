@@ -3,7 +3,7 @@ A chatbot that replies with a video recipe based on user's query
 
 🍕 🍌 🍙 🍱
 
-![](https://media.giphy.com/media/l4FGCXH9KCBclpamY/giphy.gif)
+![](https://media.giphy.com/media/l4FGzZecuUtocXcnm/giphy.gif)
 
 ## Configuration
 - This bot requires a _config.js_ file in the main directory. A demo config file has been included. Replace appropriate strings.
