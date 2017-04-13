@@ -12,7 +12,7 @@ A chatbot that replies with a video recipe based on user's query
 - This bot relies on npm package Snoocore to connect to Reddit. 
 
 ## Frequently Asked Questions
-*Why did you make this bot?*
+###Why did you make this bot?
 ChopChop was created to address some of user's concerns when it comes to looking for a recipe to make for the day:
 - "There are too many options!"
 - "I don't know what I want to make, but I have a general idea"
@@ -25,7 +25,7 @@ By default, ChopChop curates a list of 20 results when a user searches for a rec
 
 The reason why ChopChop was created as a chatbot rather than any other application is because it is made to appeal to millenials. In 2015, [59% of millenials cook with their smartphones or tablets handy](https://www.thinkwithgoogle.com/articles/cooking-trends-among-millennials.html) (article from Google, 'Cooking Trends Among Millenials: Welcome to the Digital Kitchen', 2015), and it was also found that [millenials freaking love cooking videos](https://www.thinkwithgoogle.com/articles/millennials-eat-up-youtube-food-videos.html) (according to Google, 'Millenials Eat Up Youtube Food Videos', 2014). ChopChop appeal to the target users by allowing them to watch recipe videos from their mobile devices and easily share with their friends by forwarding on the social media platform that they are using -- Facebook.
 
-*Why is the bot so glitchy/slow/not replying*
+###Why is the bot so glitchy/slow/not replying
 ChopChop lives on a Heroku server that sleeps for 6 hours a day. Therefore, ChopChop was probably sleeping when you messaged it. Contact me if you have a free solution other than Heroku.
 
 ## Further questions, Bugs, Support
