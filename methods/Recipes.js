@@ -47,9 +47,6 @@ var getRecipe = function(sender) {
 	var rnd = Math.floor(Math.random() * gifsArr.length);
 	var recipe = gifsArr[rnd];
 	gifsArr.splice(rnd, 1);
-	if (gifsArr.length == 0) {
-		delete session.context["gifsArr"];
-	}
 	setRecipes(gifsArr, sender); // set new array of gifs back
 	return recipe;
 }
@@ -62,7 +59,9 @@ var exist = function(sender) {
     // This is needed for our bot to figure out the conversation history
     var session = Session.retrieveSession(sender);
 
-    return ("gifsArr" in session.context);
+    var gifsArr = session.context.gifsArr;
+
+    return (("gifsArr" in session.context) && (gifsArr.length > 0));
 }
 
 // export the functions
