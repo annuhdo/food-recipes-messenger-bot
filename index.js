@@ -16,12 +16,12 @@ const
  * Import page modules
  */
 const
-	config = require('./config'),
-	FB = require('./methods/FB'),
-	Recipes = require('./methods/Recipes'),
-	Search = require('./methods/Search'),
+    config = require('./config'),
+    FB = require('./methods/FB'),
+    Recipes = require('./methods/Recipes'),
+    Search = require('./methods/Search'),
     Session = require('./methods/Session'),
-	sendAPI = require('./services/sendAPI');
+    sendAPI = require('./services/sendAPI');
 
 var searchText = "";
 
@@ -184,7 +184,7 @@ function receivedPostback(event) {
         default:
             break;
     }
-} 
+}
 
 
 /*
@@ -207,7 +207,7 @@ function receivedMessage(event) {
     var timeOfMessage = event.timestamp;
     var message = event.message;
 
-   
+
 
     console.log("Received message for user %d and page %d at %d with message:",
         senderID, recipientID, timeOfMessage);
@@ -266,11 +266,9 @@ function receivedMessage(event) {
 
         var lowercaseText = messageText.toLowerCase();
 
-        if (lowercaseText === "random" || lowercaseText === 'random recipe') {
+        if (lowercaseText.includes("random")) {
             return grabRecipe(senderID, messageText, true);
-        }
-
-        if (lowercaseText === "help") {
+        } else if (lowercaseText.includes("help")) {
             return sendAPI.sendHelpMessage(senderID);
         }
 
@@ -285,18 +283,20 @@ function receivedMessage(event) {
         // If we receive a text message, check to see if it matches any special
         // keywords and send back the corresponding example. Otherwise, just echo
         // the text we received.
-        switch (lowercaseText) {
-            case 'another':
-                return sendAPI.sendAnotherOne(senderID, searchText);
-                break;
-            case 'search':
-                Search.lockSearch();
-                return sendAPI.sendTextMessage(senderID, "Search query is on! Tell me what you would like to search for. You may search for recipes such as \'cupcake\', \'fried rice,\' or \'Korean.\'\n✍️ 🌚 🌝");
-                break;
-            default:
-                // Wit runActions here
-                return grabRecipe(senderID, messageText, false);
+        else if (lowercaseText.includes('another')) {
+            return sendAPI.sendAnotherOne(senderID, searchText);
+        } else if (lowercaseText.includes('search')) {
+            Search.lockSearch();
+            return sendAPI.sendTextMessage(senderID, "Search query is on! Tell me what you would like to search for. You may search for recipes such as \'cupcake\', \'fried rice,\' or \'Korean.\'\n✍️ 🌚 🌝");
+        } else if (lowercaseText.includes('no') || lowercaseText.includes('nah')) {
+            return sendTextMessage(senderID, "Oh, Okay.");
+        } else if (lowercaseText.includes('yes') || lowercaseText.includes('yeah')) {
+            return sendTextMessage(senderID, "Yeah.");
+        } else {
+            // Wit runActions here
+            return grabRecipe(senderID, messageText, false);
         }
+
     } else if (messageAttachments) {
         sendAPI.sendTextMessage(senderID, "Message with attachment received");
     }

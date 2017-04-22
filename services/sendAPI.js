@@ -60,6 +60,7 @@ var sendRecipe = function(sender, text) {
         gifQuery = gif.split('/');
         gifQuery = gifQuery[gifQuery.length - 1];
         gif = "http://giant.gfycat.com/" + gifQuery + ".mp4";
+        type = "gif";
     }
 
     // Similarly, if the result is .gifv we can convert to .mp4 file
@@ -70,6 +71,8 @@ var sendRecipe = function(sender, text) {
     if (gif.match(/\.(gif)$/) != null) {
         type = "gif"; // bot will send a gif instead
     }
+
+    console.log("gif is:", gif);
 
     sendTypingOn(sender); // show that bot is typing...
     if (type == "video") {
@@ -173,7 +176,13 @@ var sendHelpMessage = function(recipientId) {
  *
  */
 var sendGetStartedMessage = function(recipientId) {
-    sendQuickReply(recipientId, "Hello! I'm ChopChop Food Recipes bot ^_^ You can use me to search for gif recipes, by telling me an ingredient or the name of the dish you are looking for and I will send you a random gif of it 🍱 \n\n🍳 Type 'Search' if you want to do this by searching for specific search query.\n🍟 Type 'Another' to get another recipe result from the last search query.\n🍜 Type 'Random' if you would like a random recipe of the day.\n🍕 Type 'Help' if you need help! \n\nLet me start you off with a random recipe!", ['Random Recipe']);
+    sendTextMessage(recipientId, "Hello! I'm ChopChop Food Recipes bot ^_^ I can send you gif recipes based on your search queries.");
+    setTimeout(function() {
+        sendTypingOn(recipientId);
+    }, 500);
+    setTimeout(function() {
+        sendQuickReply(recipientId, "Would you like to start off with a random recipe?", ['Random Recipe']);
+    }, 2000);
 }
 
 /*
