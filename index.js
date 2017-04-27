@@ -247,7 +247,7 @@ function receivedMessage(event) {
                 break;
             case 'Search':
                 Search.lockSearch();
-                return sendTextMessage(senderID, "Search query is on! Tell me what you would like to search for. You may search for recipes such as \'cupcake\', \'fried rice,\' or \'Korean.\'\n✍️ 🌚 🌝");
+                return sendAPI.sendTextMessage(senderID, "Search query is on! Tell me what you would like to search for. You may search for recipes such as \'cupcake\', \'fried rice,\' or \'Korean.\'\n✍️ 🌚 🌝");
                 break;
             case 'New Search':
                 Search.lockSearch;
@@ -289,9 +289,9 @@ function receivedMessage(event) {
             Search.lockSearch();
             return sendAPI.sendTextMessage(senderID, "Search query is on! Tell me what you would like to search for. You may search for recipes such as \'cupcake\', \'fried rice,\' or \'Korean.\'\n✍️ 🌚 🌝");
         } else if (lowercaseText.includes('no') || lowercaseText.includes('nah')) {
-            return sendTextMessage(senderID, "Oh, Okay.");
+            return sendAPI.sendTextMessage(senderID, "Oh, Okay.");
         } else if (lowercaseText.includes('yes') || lowercaseText.includes('yeah')) {
-            return sendTextMessage(senderID, "Yeah.");
+            return sendAPI.sendTextMessage(senderID, "Yeah.");
         } else {
             // Wit runActions here
             return grabRecipe(senderID, messageText, false);
